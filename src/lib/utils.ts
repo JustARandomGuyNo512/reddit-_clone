@@ -3,6 +3,10 @@ import { twMerge } from 'tailwind-merge'
 import { formatDistanceToNowStrict } from 'date-fns'
 import locale from 'date-fns/locale/en-US'
 
+/*类名合并
+const className = cn('p-4', 'm-2', { 'text-center': true, 'hidden': false }, ['bg-red-500', 'bg-blue-500'])
+      =>  'p-4 m-2 text-center bg-blue-500'
+*/
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
