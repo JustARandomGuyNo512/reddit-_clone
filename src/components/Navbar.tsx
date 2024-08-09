@@ -3,6 +3,7 @@ import Link from "next/link";
 import Icons from "./Icons";
 import { buttonVariants } from './ui/Button'
 import { auth } from "@/lib/auth";
+import UserAccountNav from "@/components/UserAccountNav";
 
 // get user session
 const Navbar = async () => {
@@ -22,7 +23,7 @@ const Navbar = async () => {
                 {/* 登录验证以及登录跳转 */}
                 {
                      session?.user ? 
-                        (<p>你已经登录</p>) 
+                        (<UserAccountNav user={session.user}></UserAccountNav>) 
                       : (<Link href='/sign-in' className={buttonVariants()}>Sign In</Link>)
                 }
             </div>
