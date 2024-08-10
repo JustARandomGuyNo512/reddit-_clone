@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { FC } from "react";
 import { User } from "next-auth";
 import { signOut } from "next-auth/react";
@@ -12,7 +12,7 @@ import UserAvator from "./UserAvatar";
 import { DropdownMenuContent } from "./ui/DropdownMenu";
 import Link from "next/link";
 
-interface UserNavAccountProps {
+interface UserNavAccountProps extends React.HTMLAttributes<HTMLDivElement>  {
   user: Pick<User, "name" | "image" | "email">;
 }
 
@@ -36,26 +36,27 @@ const UserAccountNav: FC<UserNavAccountProps> = ({ user }) => {
             )}
           </div>
         </div>
-        <DropdownMenuSeparator/>
+        <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-            <Link href={"/"}>Feed</Link>
+          <Link href={"/"}>Feed</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-            <Link href={"/r/create"}>Create Community</Link>
+          <Link href={"/r/create"}>Create Community</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-            <Link href={"/settings"}>Settings</Link>
+          <Link href={"/settings"}>Settings</Link>
         </DropdownMenuItem>
-        <DropdownMenuSeparator/>
-        <DropdownMenuItem className='cursor-pointer' onSelect={
-            (e) => {
-                e.preventDefault();
-                signOut({
-                    callbackUrl: window.location.origin + "/sign-in",
-                });
-            }
-        }>
-            Sign-out
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          className="cursor-pointer"
+          onSelect={(e) => {
+            e.preventDefault();
+            signOut({
+              callbackUrl: window.location.origin + "/sign-in",
+            });
+          }}
+        >
+          Sign-out
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
