@@ -61,7 +61,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         session.user.image = token.picture
         session.user.username = nanoid(10);
       }
-      console.log(session)
+      //console.log(session)
       return session
     },
     redirect() {
