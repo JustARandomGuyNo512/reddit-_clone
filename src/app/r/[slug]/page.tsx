@@ -1,3 +1,4 @@
+import MiniCreatePost from "@/components/MiniCreatePost";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { notFound } from "next/navigation";
@@ -33,8 +34,8 @@ const Page = async ({ params }: PageProps) => {
       <h1 className="font-bold text-3xl md:text-4xl h-14">
         r/{subreddit.name}
       </h1>
-      {/* <MiniCreatePost session={session} />
-      <PostFeed initialPosts={subreddit.posts} subredditName={subreddit.name} /> */}
+      <MiniCreatePost session={session} />
+      {/* <PostFeed initialPosts={subreddit.posts} subredditName={subreddit.name} /> */}
     </>
   );
 };

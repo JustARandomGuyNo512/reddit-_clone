@@ -22,7 +22,6 @@ const UserAuthorizeForm: FC<UserAuthorizeFormProps> = ({
         try {
             await signIn(platform);
         } catch(e) {
-            console.log(e);
             toast({
                 title: "Error",
                 description: "Something went wrong with " + platform,
