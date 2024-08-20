@@ -28,9 +28,18 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         if (user) {
           token.id = user!.id
         }
-        //console.log("aaa", token, user)
+        await db.user.create({
+          data: {
+            id: token!.id as string,
+            name: token!.name,
+            email: token!.email,
+            image: token!.picture,
+          }
+        })
         return token
       }
+
+      //console.log("dbuser:", dbUser)
 
       if (!dbUser.username) {
         await db.user.update({
@@ -42,7 +51,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           },
         })
       }
-      //console.log(token, user)
+
       return {
         id: dbUser.id,
         name: dbUser.name,
@@ -55,13 +64,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
     session: async ({session, token}) => {
       if (token) {
-        session.user.id = token.sub ? token.sub : nanoid(10);
+        session.user.id = token.id as string;
         session.user.name = token.name
         session.user.email = token.email
         session.user.image = token.picture
         session.user.username = nanoid(10);
       }
-      //console.log(session)
       return session
     },
     redirect() {

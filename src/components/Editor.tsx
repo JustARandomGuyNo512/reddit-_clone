@@ -10,6 +10,8 @@ import { toast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { usePathname, useRouter } from "next/navigation";
+import { z } from "zod";
+type FormData = z.infer<typeof PostValidator>
 
 interface EditorProps {
   subredditId: string;
@@ -20,7 +22,7 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<PostCreationRequest>({
+  } = useForm<FormData>({
     resolver: zodResolver(PostValidator),
     defaultValues: {
       subredditId: subredditId,
@@ -138,7 +140,7 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
       const {data} = await axios.post("/api/subreddit/post/create", payload);
       return data;
     },
-    onError: (e) =>{
+    onError: () =>{
       return toast({
         title: "出错了",
         description: "请稍后再试",
@@ -156,29 +158,31 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
     }
   });
 
-  async function onSubmit(data: PostCreationRequest) {
-    const blocks = await ref.current?.save();
-    const payload: PostCreationRequest = {
+  async function onSubmit(data: any) {
+    const blocks = await ref.current?.save()
+    // console.log(data);
+    const payload: any = {
       title: data.title,
       content: blocks,
-      subredditId: data.subredditId,
+      subredditId,
     }
-    createPost(payload);
+
+    createPost(payload)
   }
 
   return (
     <div className="w-full p-4 bg-zinc-50 rounded-lg border border-zinc-200">
-      <form id="subreddit-post-form" className="w-fit" onSubmit={() => {}}>
+      <form id="subreddit-post-form" className="w-fit" onSubmit={handleSubmit(onSubmit)}>
         <div className="prose prose-stone dark:prose-invert">
           <TextareaAutosize
             className="w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none"
             placeholder="标题"
+            {...rest}
             ref={(e) => {
               titleRef(e);
               // @ts-ignore
               _titleRef.current = e;
             }}
-            onSubmit={handleSubmit(onSubmit)}
           />
           <div id='editor' className='min-h-[500px]' />
         </div>

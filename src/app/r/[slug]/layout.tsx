@@ -13,6 +13,7 @@ const Layout = async ({
   children: React.ReactNode;
   params: { slug: string };
 }) => {
+  console.log(new Date() + slug + "");
   const session = await auth();
 
   const subreddit = await db.subreddit.findFirst({
@@ -25,7 +26,7 @@ const Layout = async ({
         },
       },
     },
-  });
+  })
 
   const subscription = !session?.user
     ? undefined
@@ -47,11 +48,11 @@ const Layout = async ({
   }
 
   const memberCount = await db.subscription.count({
-    where: {
-      subreddit: {
-        name: slug,
-      },
-    },
+  //   where: {
+  //     subreddit: {
+  //       name: slug,
+  //     },
+  //   },
   });
 
   return (
