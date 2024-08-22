@@ -74,7 +74,7 @@ export async function PATCH(req: Request) {
               currentVote: voteType,
               createdAt: post.createdAt,
             };
-            console.log("cacheing", cachePayload);
+            //console.log("cacheing", cachePayload);
             await redis.hset("post:" + postId, cachePayload);
           } catch(e) {console.log("redis error:",e)}
         }

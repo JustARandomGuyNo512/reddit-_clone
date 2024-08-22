@@ -23,7 +23,10 @@ const Page = async ({ params }: PageProps) => {
           votes: true,
           subreddit: true,
         },
-        take: 10,
+        orderBy: {
+          createdAt: "desc",
+        },
+        take: 5,
       },
     },
   });

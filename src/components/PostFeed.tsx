@@ -1,5 +1,5 @@
 "use client";
-import { FC, useRef } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { ExtendedPost } from "@/types/db";
 import { useIntersection } from "@mantine/hooks";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -22,6 +22,12 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, subredditName }) => {
     threshold: 1,
   });
 
+  const [isClient, setIsClient] = useState(false)
+ 
+  useEffect(() => {
+    setIsClient(true)
+  }, []);
+
   const { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
     ["infinite-query"],
     async ({ pageParam = 1 }) => {
@@ -31,7 +37,7 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, subredditName }) => {
         "//" +
         params[2] +
         "/" +
-        "api/posts?limit=10&page=" +
+        "api/posts?limit=5&page=" +
         pageParam +
         (!!subredditName ? "&subredditName=" + subredditName : "");
       //console.log(query);
@@ -49,8 +55,14 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, subredditName }) => {
     }
   );
 
+  useEffect(() => {
+    if (entry?.isIntersecting) {
+      fetchNextPage();
+    }
+  }, [entry, fetchNextPage]);
+
   const posts = data?.pages.flatMap((page) => page) ?? initialPosts;
-  return (
+  return ( isClient ?
     <ul className="flex flex-col col-span-2 space-y-6">
       {posts.map((post, index) => {
         const votesAmt = post.votes.reduce((acc, vote) => {
@@ -73,7 +85,7 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, subredditName }) => {
             return <Post subredditName={post.subreddit.name} post={post}  commentAmt={post.comments.length} _votesAmt={votesAmt} currentVote={currentVote} />;
         }
       })}
-    </ul>
+    </ul> : <></>
   );
 };
 
