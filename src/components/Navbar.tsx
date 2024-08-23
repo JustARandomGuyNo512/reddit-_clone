@@ -4,6 +4,7 @@ import Icons from "./Icons";
 import { buttonVariants } from './ui/Button'
 import { auth } from "@/lib/auth";
 import UserAccountNav from "@/components/UserAccountNav";
+import SearchBar from "./SearchBar";
 
 // get user session
 const Navbar = async () => {
@@ -19,6 +20,7 @@ const Navbar = async () => {
                 </Link>
 
                 {/* search bar */}
+                <SearchBar></SearchBar>
                 
                 {/* 登录验证以及登录跳转 */}
                 {

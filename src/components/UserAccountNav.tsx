@@ -38,13 +38,13 @@ const UserAccountNav: FC<UserNavAccountProps> = ({ user }) => {
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link href={"/"}>Feed</Link>
+          <Link href={"/"}>主页</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link href={"/r/create"}>Create Community</Link>
+          <Link href={"/r/create"}>创建社区</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link href={"/settings"}>Settings</Link>
+          <Link href={"/settings"}>设置</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
@@ -56,7 +56,7 @@ const UserAccountNav: FC<UserNavAccountProps> = ({ user }) => {
             });
           }}
         >
-          Sign-out
+          登出
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
