@@ -1,4 +1,5 @@
 import { db } from '@/lib/db'
+import "server-only"
 
 export async function GET(req: Request) {
   const url = new URL(req.url)

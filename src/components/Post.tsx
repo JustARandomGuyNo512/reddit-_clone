@@ -37,7 +37,7 @@ const Post: FC<PostProps> = ({subredditName, post, commentAmt, _votesAmt, curren
                 </a>
                 <span className='px-1'>•</span>
             </>) : (null)}
-            <span>Posted by u/{post.author.name}</span>{' '}
+            <span>由你创建/{post.author.name}</span>{' '}
             {formatTimeToNow(new Date(post.createdAt))}
           </div>
           <a href={`/r/${subredditName}/post/${post.id}`}>
@@ -61,7 +61,7 @@ const Post: FC<PostProps> = ({subredditName, post, commentAmt, _votesAmt, curren
           href={`/r/${subredditName}/post/${post.id}`}
           className='w-fit flex items-center gap-2'>
           <MessageSquare className='h-4 w-4' /> 
-          {commentAmt} comments
+          {commentAmt} 评论
         </Link>
       </div>
     </div>

@@ -21,9 +21,10 @@ export const dynamic = "force-dynamic";
 export const fetchCache = "force-no-store";
 
 const page = async ({ params }: PageProps) => {
-  const cachedPost = (await redis.hgetall(
-    "post:" + params.postId
-  )) as CachedPost;
+  const cachedPost = undefined;
+  // (await redis.hgetall(
+  //   "post:" + params.postId
+  // )) as CachedPost;
 
   let post: (Post & { votes: Vote[]; author: User }) | null = null;
   if (!cachedPost) {
@@ -38,7 +39,7 @@ const page = async ({ params }: PageProps) => {
     });
   }
 
-  if (!post && !cachedPost) {
+  if (!post) {
     return notFound();
   }
 
@@ -48,7 +49,7 @@ const page = async ({ params }: PageProps) => {
         <Suspense fallback={<PostVoteShell />}>
           {/* @ts-expect-error server component */}
           <PostVoteServer
-            postId={post?.id ?? cachedPost.id}
+            postId={post?.id}
             getData={async () => {
               return await db.post.findUnique({
                 where: {
@@ -63,20 +64,20 @@ const page = async ({ params }: PageProps) => {
         </Suspense>
         <div className="sm:w-0 w-full flex-1 bg-white p-4 rounded-sm">
           <p className="max-h-40 mt-1 truncate text-xs text-gray-500">
-            Posted by u/{post?.author.username ?? cachedPost.authorUsername}{" "}
-            {formatTimeToNow(new Date(post?.createdAt ?? cachedPost.createdAt))}
+            作者/{post?.author.username}{" "}
+            {formatTimeToNow(new Date(post.createdAt))}
           </p>
           <h1 className="text-xl font-semibold py-2 leading-6 text-gray-900">
-            {post?.title ?? cachedPost.title}
+            {post?.title}
           </h1>
 
-          <EditorOutput content={post?.content ?? cachedPost.content} />
+          <EditorOutput content={post?.content} />
           <Suspense
             fallback={
               <Loader2 className='h-5 w-5 animate-spin text-zinc-500' />
             }>
             {/* @ts-expect-error*/}
-            <CommentsSection postId={post?.id ?? cachedPost.id}/>
+            <CommentsSection postId={post?.id}/>
           </Suspense>
         </div>
       </div>

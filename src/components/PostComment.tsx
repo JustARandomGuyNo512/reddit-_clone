@@ -114,7 +114,7 @@ const PostComment: FC<PostCommentProps> = ({
                 id="comment"
                 rows={1}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="你知道什么不该说对吧？"
+                placeholder="说点什么"
               />
               <div className="mt-2 flex justify-end gap-2">
                 <Button
